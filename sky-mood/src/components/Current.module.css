@@ -1,0 +1,20 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.container div:first-child {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.container .temp {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    border-radius: 10px;
+    background-color: #D3AB8B;
+    color: white;
+}

@@ -1,0 +1,40 @@
+.App {
+  width: 100%;
+  height: 100vh;
+  background-color: #a2e7e8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.header span {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.navbar a {
+  padding: 8px 15px;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px 4px 0px 0px;
+  background-color: gray;
+  margin-right: 10px;
+}
+
+.navbar a:hover, .container .selected {
+  background-color: #D3AB8B;
+}
+
+
