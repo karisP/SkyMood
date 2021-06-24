@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import { NavLink, Switch, Route } from 'react-router-dom';
@@ -9,32 +8,54 @@ function App() {
   const myKey = '';
   const [input, setInput] = React.useState();
   const [location, setLocation] = React.useState('Detroit');
-  const [error, setError] = React.useState(null);
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const [data, setData] = React.useState();
+  const [currentError, setCurrentError] = React.useState(null);
+  const [currentIsLoaded, setCurrentIsLoaded] = React.useState(false);
+  const [currentData, setCurrentData] = React.useState();
+  const [forecastError, setForecastError] = React.useState(null);
+  const [forecastIsLoaded, setForecastIsLoaded] = React.useState(false);
+  const [forecastData, setForecastData] = React.useState();
 
   const onFetchCurrent = (input) => {
-    //   fetch(`api.openweathermap.org/data/2.5/weather?q=${string}&appid=${myKey}`)
-    //   .then(res => res.json())
-    //   .then(
-    //     (result) => {
-    //         setIsLoaded(true);
-    //         setData(result);
-    //       },
-    //       // Note: it's important to handle errors here
-    //       // instead of a catch() block so that we don't swallow
-    //       // exceptions from actual bugs in components.
-    //       (error) => {
-    //         setIsLoaded(true);
-    //         setError(error);
-    //       }
-    //       )
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${input}&APPID=${myKey}`)
+      .then(res => res.json())
+      //success
+      .then(
+        (result) => {
+          setCurrentIsLoaded(true);
+          setCurrentData(result);
+        },
+        //error
+        (error) => {
+          setCurrentIsLoaded(true);
+          setCurrentError(error);
+        }
+      );
   }
 
-  // React.useEffect(() => {
-  //    onFetchCurrent(location);  
-  //     }, []);
-  //     console.log(data);
+  const onFetchForecast = (input) => {
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${input}&APPID=${myKey}`)
+      .then(res => res.json())
+      //success
+      .then(
+        (result) => {
+          setForecastIsLoaded(true);
+          setForecastData(result);
+        },
+        //error
+        (error) => {
+          setForecastIsLoaded(true);
+          setForecastError(error);
+        }
+      );
+  }
+
+  React.useEffect(() => {
+    onFetchCurrent(location);
+    onFetchForecast(location);
+  }, [location]);
+
+  console.log("currentData", currentData);
+  console.log("forecastData", forecastData);
 
   const onChangeInput = (e) => {
     setInput(e.currentTarget.value);
@@ -43,15 +64,15 @@ function App() {
   const onClickSearch = () => {
     setLocation(input);
     onFetchCurrent(input);
+    onFetchForecast(input);
   }
-
 
   return (
     <div className="App">
       <div className="header">
         <span>Sky Mood</span>
         <div className="search">
-          <input value={input} onChange={(e) => onChangeInput(e)} placeholder="Search city or zipcode..." />
+          <input value={input} onChange={(e) => onChangeInput(e)} placeholder="Search a US city..." />
           <button onClick={onClickSearch}>Search</button>
         </div>
       </div>
@@ -60,8 +81,8 @@ function App() {
         <NavLink exact to="/fiveday" activeClassName="">Five Day</NavLink>
       </div>
       <Switch>
-        <Route exact path='/' render={() => <Current data={data} />} />
-        <Route exact path='/fiveday' render={() => <FiveDay location={location} />} />
+        <Route exact path='/' render={() => <Current data={currentData} loading={currentIsLoaded} error={currentError} />} />
+        <Route exact path='/fiveday' render={() => <FiveDay data={forecastData} loading={forecastIsLoaded} error={forecastError} />} />
       </Switch>
     </div>
   );

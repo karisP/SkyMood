@@ -5,7 +5,7 @@
     width: 100%;
 }
 
-.container div:first-child {
+.container > div:first-child {
     font-size: 18px;
     margin-bottom: 20px;
 }
