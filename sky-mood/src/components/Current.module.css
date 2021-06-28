@@ -18,3 +18,7 @@
     background-color: #D3AB8B;
     color: white;
 }
+
+.container .temp span:nth-child(3) {
+    font-size: 32px;
+}

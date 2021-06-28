@@ -1,27 +1,33 @@
 .App {
+  position: relative;
+  min-height: 100vh;
   width: 100%;
-  height: 100vh;
-  background-color: #a2e7e8;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .header {
   display: flex;
   flex-direction: column;
+  width: 100%;
   align-items: center;
-  justify-content: center;
-  margin: 20px;
+  justify-content: space-between;
+  padding: 20px;
+  box-sizing: border-box;
+  border-bottom: 1px solid gray;
+  background-color: gray;
+  color: white;
 }
 
 .header span {
   font-size: 32px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.header div:last-child {
+  display: none;
 }
 
 .navbar {
-  margin-bottom: 20px;
+  margin: 20px;
 }
 
 .navbar a {
@@ -33,8 +39,37 @@
   margin-right: 10px;
 }
 
-.navbar a:hover, .container .selected {
+/* .navbar a:hover, .navbar .selected {
   background-color: #D3AB8B;
+} */
+
+.search input {
+  padding: 10px;
+  border-radius: 10px 0px 0px 10px;
 }
 
+.search button {
+  padding: 10px;
+  border-radius: 0px 10px 10px 0px;
+}
 
+.main {
+  padding: 10px
+}
+
+@media screen and (min-width: 768px){
+  .header {
+    flex-direction: row;
+  }
+
+  .header span {
+    margin-bottom: 0px;
+    width: 150px;
+  }
+
+  .header div:last-child {
+    display: block;
+    width: 150px;
+    text-align: end;
+  }
+}
