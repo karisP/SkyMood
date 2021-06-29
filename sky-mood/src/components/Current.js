@@ -1,7 +1,6 @@
 import styles from './Current.module.css';
 
 const Current = (props) => {
-    //todo:convert temp to Fahrenheit and round
     return (
         <div className={styles.container}>
             <div>Current</div>
@@ -9,7 +8,7 @@ const Current = (props) => {
                 {
                     props.data ?
                         <>
-                            <span>{props.data.main.temp}</span>
+                            <span>{Math.round(props.data.main.temp)}</span>
                             <span>{props.data.name}</span>
                         </>
                         :

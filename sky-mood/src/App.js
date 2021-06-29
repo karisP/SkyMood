@@ -15,8 +15,9 @@ function App() {
   const [forecastIsLoaded, setForecastIsLoaded] = React.useState(false);
   const [forecastData, setForecastData] = React.useState();
 
+  //fetch the current weather endpoint
   const onFetchCurrent = (input) => {
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${input}&APPID=${myKey}`)
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${input}&units=imperial&APPID=${myKey}`)
       .then(res => res.json())
       //success
       .then(
@@ -32,8 +33,9 @@ function App() {
       );
   }
 
+  //fetch the forecast weather input
   const onFetchForecast = (input) => {
-    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${input}&APPID=${myKey}`)
+    fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${input}&units=imperial&APPID=${myKey}`)
       .then(res => res.json())
       //success
       .then(
