@@ -4,7 +4,7 @@ const Current = (props) => {
     return (
         <div className={styles.container}>
             <div>Current</div>
-            <div className={styles.temp}>
+            <div className={styles.temp} style={{backgroundColor: props.moodScheme}}>
                 {
                     props.data ?
                         <>

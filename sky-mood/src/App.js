@@ -14,16 +14,18 @@ function App() {
   const [forecastError, setForecastError] = React.useState(null);
   const [forecastIsLoaded, setForecastIsLoaded] = React.useState(false);
   const [forecastData, setForecastData] = React.useState();
+  const [moodScheme, setMoodScheme] = React.useState("slategrey");
 
   //fetch the current weather endpoint
   const onFetchCurrent = (input) => {
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${input}&units=imperial&APPID=${myKey}`)
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${input},${input},${input}&zip=${input}&units=imperial&APPID=${myKey}`)
       .then(res => res.json())
       //success
       .then(
         (result) => {
           setCurrentIsLoaded(true);
           setCurrentData(result);
+          onChangeMoodScheme();
         },
         //error
         (error) => {
@@ -32,6 +34,7 @@ function App() {
         }
       );
   }
+  console.log(currentData);
 
   //fetch the forecast weather input
   const onFetchForecast = (input) => {
@@ -56,8 +59,6 @@ function App() {
     onFetchForecast(location);
   }, [location]);
 
-  console.log("currentData", currentData);
-  console.log("forecastData", forecastData);
 
   const onChangeInput = (e) => {
     setInput(e.currentTarget.value);
@@ -69,6 +70,43 @@ function App() {
     onFetchForecast(input);
   }
 
+  const onChangeMoodScheme = () => {
+    if(currentData){
+      if(currentData.main.temp <= 66){
+        setMoodScheme("one");
+      } else if(currentData.main.temp > 66){
+        setMoodScheme("red");
+        if(currentData.main.temp > 68){
+          setMoodScheme("gold");
+        }
+        if(currentData.main.temp > 70){
+          setMoodScheme("yellow");
+        }
+        if(currentData.main.temp > 73){
+          setMoodScheme("lightgreen");
+        } 
+        if(currentData.main.temp > 76){
+          setMoodScheme("green");
+        }
+      }
+      // } else if(currentData.main.temp > 78){
+      //   setMoodScheme("darkgreen");
+      // } else if(currentData.main.temp > 81){
+      //   setMoodScheme("lightblue");
+      // } else if(currentData.main.temp > 83){
+      //   setMoodScheme("blue");
+      // } else if(currentData.main.temp > 85){
+      //   setMoodScheme("darkblue");
+      // } else if(currentData.main.temp > 88){
+      //   setMoodScheme("violet");
+      // } else if(currentData.main.temp > 90){
+      //   setMoodScheme("purple");
+      // }
+    }
+  }
+
+
+
   return (
     <div className="App">
       <div className="header">
@@ -79,11 +117,11 @@ function App() {
         </div>
       </div>
       <div className="navbar">
-        <NavLink exact to="/" activeClassName="">Current</NavLink>
-        <NavLink exact to="/fiveday" activeClassName="">Five Day</NavLink>
+        <NavLink exact to="/" className={`color ${moodScheme}`} activeStyle={{backgroundColor: moodScheme}}>Current</NavLink>
+        <NavLink exact to="/fiveday" activeStyle={{backgroundColor: moodScheme}}>Five Day</NavLink>
       </div>
       <Switch>
-        <Route exact path='/' render={() => <Current data={currentData} loading={currentIsLoaded} error={currentError} />} />
+        <Route exact path='/' render={() => <Current data={currentData} loading={currentIsLoaded} error={currentError} moodScheme={moodScheme}/>} />
         <Route exact path='/fiveday' render={() => <FiveDay data={forecastData} loading={forecastIsLoaded} error={forecastError} />} />
       </Switch>
     </div>
